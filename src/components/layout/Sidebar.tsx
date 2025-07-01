@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { 
   BookOpen, 
@@ -15,6 +14,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Tooltip } from "@/components/ui/tooltip";
+import { TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -48,45 +49,81 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
   return (
     <aside
       className={cn(
-        "bg-white border-r h-screen transition-all duration-300 sticky top-0",
+        "fixed inset-y-0 left-0 h-screen z-30 border-none bg-[#204ECF] text-white transition-all duration-300",
         collapsed ? "w-16" : "w-64"
       )}
     >
       <div className="flex flex-col h-full">
-        <div className="px-3 py-2">
-          {navItems.map((item) => (
-            <Link to={item.path} key={item.path}>
+        {/* Logo and App Name */}
+        <div className="flex items-center gap-2 px-4 h-16 border-b border-white/10">
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 rounded-full bg-white object-contain" />
+          {!collapsed && <span className="font-bold text-base tracking-tight whitespace-nowrap">EFPuC EduSystem</span>}
+        </div>
+        {/* Section: Main */}
+        <div className="px-4 pt-2 pb-1 text-xs font-semibold text-white/70 uppercase tracking-wide">
+          Main
+        </div>
+        <div className="flex-1 px-2 py-1 overflow-y-auto scrollbar-hide">
+          {navItems.map((item, idx) => (
+            <Link to={item.path} key={item.path} tabIndex={collapsed ? -1 : 0}>
               <Button
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start gap-2 my-1",
+                  "w-full justify-start gap-3 my-1 px-3 py-2 rounded-lg transition-all duration-150 text-white font-medium",
                   isCurrentPath(item.path)
-                    ? "bg-gray-100 text-primary font-medium"
-                    : "hover:bg-gray-100 hover:text-primary-foreground"
+                    ? "bg-white/20 text-white shadow-sm"
+                    : "hover:bg-white/10 hover:text-white",
+                  collapsed && "justify-center px-0"
                 )}
               >
                 {item.icon}
-                {!collapsed && <span>{item.name}</span>}
+                {!collapsed && <span className="truncate">{item.name}</span>}
               </Button>
             </Link>
           ))}
         </div>
-
-        <div className="mt-auto p-3">
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-2"
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            {collapsed ? (
-              <ChevronRightSquare size={18} />
-            ) : (
-              <>
-                <ChevronLeftSquare size={18} />
-                <span>{t("Collapse Sidebar")}</span>
-              </>
-            )}
-          </Button>
+        {/* Section: Administration (example, adjust as needed) */}
+        {/* <div className="px-4 pt-4 pb-1 text-xs font-semibold text-white/70 uppercase tracking-wide">
+          Administration
+        </div> */}
+        {/* User area and collapse button */}
+        <div className="mt-auto px-3 py-4 border-t border-white/10 flex flex-col gap-3">
+          {!collapsed && (
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-[#204ECF] font-bold">U</div>
+              <div>
+                <div className="font-medium leading-tight text-white">Welcome!</div>
+                <div className="text-xs text-white/70">User</div>
+              </div>
+            </div>
+          )}
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={cn(
+                    "w-full justify-start gap-2 rounded-lg text-white hover:bg-white/10",
+                    collapsed && "justify-center"
+                  )}
+                  onClick={() => setCollapsed(!collapsed)}
+                  aria-label={collapsed ? t("Expand Sidebar") : t("Collapse Sidebar")}
+                >
+                  {collapsed ? (
+                    <ChevronRightSquare size={20} />
+                  ) : (
+                    <>
+                      <ChevronLeftSquare size={20} />
+                      <span>{t("Collapse Sidebar")}</span>
+                    </>
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right" align="center">
+                {collapsed ? t("Expand Sidebar") : t("Collapse Sidebar")}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
     </aside>

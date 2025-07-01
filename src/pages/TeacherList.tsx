@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { GraduationCap, Search, MoreVertical } from "lucide-react";
@@ -64,7 +63,7 @@ const TeacherList = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 container mx-auto">
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">{t("Teachers")}</h1>

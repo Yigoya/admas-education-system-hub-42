@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   flexRender,
   getCoreRowModel,
@@ -50,6 +49,7 @@ export function StudentTable<TData extends Student, TValue>({
 }: StudentTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const navigate = useNavigate();
 
   const table = useReactTable({
     data,
@@ -69,15 +69,6 @@ export function StudentTable<TData extends Student, TValue>({
   return (
     <div>
       <div className="flex flex-col sm:flex-row items-center py-4 gap-2">
-        <div className="relative w-full sm:max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={`Search ${searchField}...`}
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className="w-full pl-9"
-          />
-        </div>
         <div className="flex-1" />
         <div className="flex items-center gap-2">
           <Button
@@ -139,6 +130,8 @@ export function StudentTable<TData extends Student, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="cursor-pointer hover:bg-blue-50"
+                  onClick={() => navigate(`/students/${row.original.id}`)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

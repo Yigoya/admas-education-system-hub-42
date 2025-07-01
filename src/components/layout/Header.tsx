@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Bell, Search, Globe, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -83,17 +82,6 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           <h1 className="text-xl font-semibold text-primary-navy hidden md:block">
             Federal Prison Commission Academy
           </h1>
-        </div>
-      </div>
-
-      <div className="flex-1 max-w-md mx-4 hidden md:block">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-          <Input
-            type="search"
-            placeholder={t("Search by name or ID...")}
-            className="w-full bg-gray-50 pl-9 pr-4 rounded-lg border-gray-200"
-          />
         </div>
       </div>
 

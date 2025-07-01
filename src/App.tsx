@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -24,6 +23,7 @@ import ReportsAndStatistics from "./pages/ReportsAndStatistics";
 import CalendarPage from "./pages/CalendarPage";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import StudentDetail from "./pages/StudentDetail";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +46,7 @@ const App = () => (
             >
               <Route index element={<Dashboard />} />
               <Route path="students" element={<StudentList />} />
+              <Route path="students/:id" element={<StudentDetail />} />
               <Route path="students/register" element={<StudentRegistration />} />
               <Route path="students/inmates" element={<InmateStudents />} />
               <Route path="teachers" element={<TeacherList />} />

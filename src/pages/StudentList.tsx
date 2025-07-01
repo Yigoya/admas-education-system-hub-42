@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { User, Search } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -169,12 +168,12 @@ const StudentList = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 container mx-auto">
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">{t("Students")}</h1>
           <p className="text-muted-foreground">
-            {t("manage_and_view_all_students")}
+            {t("Manage and view all students")}
           </p>
         </div>
         <Link to="/students/register">
@@ -187,9 +186,9 @@ const StudentList = () => {
 
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle>{t("student_list")}</CardTitle>
+          <CardTitle>{t("Students List")}</CardTitle>
           <CardDescription>
-            {t("total_students_found").replace("{0}", filteredStudents.length.toString())}
+            {t("Total students found: {0}").replace("{0}", filteredStudents.length.toString())}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -197,7 +196,7 @@ const StudentList = () => {
             <div className="relative w-full sm:max-w-xs">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder={t("search_by_name_or_id")}
+                placeholder={t("Search by name or ID...")}
                 className="w-full pl-9"
               />
             </div>
@@ -206,9 +205,9 @@ const StudentList = () => {
                 <SelectValue placeholder={t("Filter")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("all_students")}</SelectItem>
-                <SelectItem value="inmates">{t("inmates_only")}</SelectItem>
-                <SelectItem value="non-inmates">{t("non_inmates_only")}</SelectItem>
+                <SelectItem value="all">{t("All students")}</SelectItem>
+                <SelectItem value="inmates">{t("Inmates only")}</SelectItem>
+                <SelectItem value="non-inmates">{t("Non-inmates only")}</SelectItem>
                 <SelectItem value="grade-1">{t("Grade")} 1</SelectItem>
                 <SelectItem value="grade-2">{t("Grade")} 2</SelectItem>
                 <SelectItem value="grade-3">{t("Grade")} 3</SelectItem>

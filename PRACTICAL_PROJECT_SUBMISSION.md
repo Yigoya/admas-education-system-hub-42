@@ -59,7 +59,7 @@ The deployed environment uses cloud virtualization on Azure with Linux-based vir
 ### 4.2 Resource Group and Regional Setup
 
 - **Resource Group:** `admas-education-rg`
-- **Region:** `East US` *(or your selected region)*
+- **Region:** ................................................
 - **Virtual Network:** `admas-vnet`
 - **Subnet:** `admas-subnet`
 - **Public IP:** Assigned to VM-1 for browser access
@@ -146,7 +146,7 @@ server {
     listen 80;
     server_name _;
 
-    root /home/<username>/admas-education-system-hub-42/dist;
+    root /home/<username>/<project-directory>/dist;
     index index.html;
 
     location / {

@@ -1,7 +1,7 @@
 # Project Deployment Report: Alternative Two - Practical Project
 
 ## 1. Introduction & Project Scope
-This report documents the completion of **Alternative Two: Practical Project**, worth 20% of the course grade plus a 5-point bonus. The objective was to set up a virtualized environment on a major cloud platform, create virtual machines, and deploy a final year project to demonstrate full cloud-based functionality.
+This report documents the completion of **Alternative Two: Practical Project**, worth 20% of the course grade plus a 5-point bonus. The objective was to set up a virtualized environment on a major cloud platform, create virtual machines, and deploy a final year project (the **Admas Education System Hub**) to demonstrate full cloud-based functionality.
 
 For this project, **Microsoft Azure** was selected as the cloud platform to host the **Admas Education System Hub**.
 
@@ -14,8 +14,11 @@ The environment was provisioned using Azure's native virtualization tools.
 1. **Virtualization Tool**: Utilized **Azure Virtual Machines** and **Azure Resource Manager (ARM)** to provision resources.
 2. **Compute Resource**: Created a VM instance running **Ubuntu 22.04 LTS**.
 3. **Instance Sizing**: Allocated a "Standard_B1s" (or equivalent) instance, providing a balance of CPU and memory for the hub's requirements.
-4. **Public Networking**: Assigned a static Public IP (`20.94.192.239`) to ensure persistent connectivity.
+4. **Public Networking**: Assigned a static Public IP (`<PUBLIC_IP>`) to ensure persistent connectivity.
+   - Azure configuration note: In Public IP settings, set **Assignment** to **Static** (instead of Dynamic) during VM creation or from the VM's IP configuration.
 5. **Security**: Implemented **SSH Public Key (RSA 2048-bit)** authentication for secure administrative access.
+
+> Note: In public-facing documentation, replace direct server IPs with placeholders (for example, `<PUBLIC_IP>`) where possible; see the final deployment link note at the end.
 
 ---
 
@@ -25,7 +28,7 @@ Once the VM was provisioned, the server environment was prepared for the Node.js
 ### SSH Access:
 Connected to the server via terminal:
 ```bash
-ssh azureuser@20.94.192.239
+ssh azureuser@<PUBLIC_IP>
 ```
 
 ### Installing Node.js & npm:
@@ -51,11 +54,13 @@ cd admas-education-system-hub-42
 ```
 
 ### Installation & Build:
-1. Install Dependencies: Downloaded all required packages including React, Tailwind CSS, and Shadcn UI components.
+1. **Install Dependencies**  
+   Downloaded all required packages including React, Tailwind CSS, and shadcn/ui components.
    ```bash
    npm install
    ```
-2. Build Production Bundle: Generated an optimized static site in the dist/ directory.
+2. **Build Production Bundle**  
+   Generated an optimized static site in the dist/ directory.
    ```bash
    npm run build
    ```
@@ -98,10 +103,18 @@ pm2 start ecosystem.config.cjs
 By default, Azure blocks external traffic to non-standard ports. To make the application accessible, the Network Security Group (NSG) was modified.
 
 ### Inbound Rule Configuration:
-- Protocol: TCP
-- Port: 3000
-- Action: Allow
-- Description: Enabled traffic for the Admas Education System Hub.
+- **Rule 1: SSH Administration (Port 22)**
+  - Protocol: TCP
+  - Port: 22
+  - Action: Allow (restricted to trusted source IPs for administration)
+  - Azure path: VM → Networking → Inbound port rules.
+  - NSG Source Filter: Set **Source** to `IP Addresses` and enter only trusted administrator-controlled IPs (for example, office/campus static IPs), not `Any`.
+
+- **Rule 2: Application Access (Port 3000)**
+  - Protocol: TCP
+  - Port: 3000
+  - Action: Allow
+  - Description: Enabled traffic for the Admas Education System Hub.
 
 ---
 
@@ -115,4 +128,7 @@ As per the project requirements, the application's functionality is demonstrated
 ## 8. Conclusion
 By utilizing Azure's virtualization tools, the Admas Education System Hub has been successfully transitioned from a local development state to a professional cloud-based deployment. All steps, from environment provisioning to security configuration, have been documented to ensure reproducibility.
 
-Final Deployment Link: <a href="http://20.94.192.239:3000/">http://20.94.192.239:3000/</a>
+Final Deployment Link (HTTP demo endpoint; use HTTPS in production): [http://<PUBLIC_IP>:3000/](http://<PUBLIC_IP>:3000/)
+
+Security Note: This coursework endpoint is currently served over HTTP for demonstration. For production use, configure TLS/SSL (HTTPS) and serve through a domain with a valid certificate.
+Replace `<PUBLIC_IP>` with the actual VM public IP in your private/final submitted copy.
